@@ -1,0 +1,22 @@
+mat-toolbar {
+  .toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+  a.github {
+    width: 30px;
+    
+    svg {
+      fill: white;
+    }
+  }
+}
+
+mat-sidenav-container {
+  height: calc(100vw - 60px);
+
+  mat-sidenav {
+    padding: 15px;
+    width: 200px;
+  }
+}
