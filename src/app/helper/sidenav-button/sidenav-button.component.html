@@ -1,0 +1,17 @@
+@if (active) {
+  <button 
+    mat-flat-button
+    color="primary"
+    [routerLink]="link"
+  >
+    {{ text}}
+  </button>
+} @else {
+  <button 
+    mat-stroked-button
+    color="primary"
+    [routerLink]="link"
+  >
+    {{ text}}
+  </button>
+}

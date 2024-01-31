@@ -15,33 +15,27 @@
   <mat-sidenav mode="side" opened>
     <mat-list>
       <mat-list-item>
-        <button 
-          mat-flat-button
-          routerLinkActive="active"
-          routerLink=""
-        >
-          Map
-        </button>
+        <sidenav-button
+          link=""
+          text="Map"
+          [active]="currentUrl === '' || currentUrl === '/'"
+        ></sidenav-button>
       </mat-list-item>
 
       <mat-list-item>
-        <button
-          mat-flat-button
-          routerLinkActive="active"
-          routerLink="/filter"
-        >
-          Filter
-        </button>
+        <sidenav-button
+          link="/filter"
+          text="Filter"
+          [active]="currentUrl === '/filter'"
+        ></sidenav-button>
       </mat-list-item>
 
       <mat-list-item>
-        <button 
-          mat-flat-button
-          routerLinkActive="active"
-          routerLink="/tap"
-        >
-          Tap
-        </button>
+        <sidenav-button
+          link="/tap"
+          text="Tap"
+          [active]="currentUrl === '/tap'"
+        ></sidenav-button>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
