@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, concatMap, delay, filter, from, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, concatMap, delay, filter, from, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
 import { NumberPair } from '../models/number-pair';
 
 @Injectable({
@@ -7,15 +7,19 @@ import { NumberPair } from '../models/number-pair';
 })
 export class NumbersService {
   numbers = new BehaviorSubject<NumberPair[]>([]);
+  numberSubscription?: Subscription;
 
   constructor() { }
 
   reset() {
     this.numbers.next([]);
+    this.numberSubscription?.unsubscribe();
   }
 
   useMap(numbers: number[]) {
-    from(numbers).pipe(
+    this.reset();
+
+    this.numberSubscription = from(numbers).pipe(
       concatMap(number =>
         of(number).pipe(
           delay(1000),
@@ -38,7 +42,9 @@ export class NumbersService {
   }
 
   useFilter(numbers: number[]) {
-    from(numbers).pipe(
+    this.reset();
+
+    this.numberSubscription = from(numbers).pipe(
       concatMap(number =>
         of(number).pipe(
           delay(1000),

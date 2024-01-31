@@ -26,8 +26,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   constructor(private numbersService: NumbersService) { }
 
   ngOnInit(): void {
-    this.numbersService.reset();
-
     this.numbersSubscription = this.numbersService.numbers.subscribe(numbers => {
       this.numbers = numbers;
     });
