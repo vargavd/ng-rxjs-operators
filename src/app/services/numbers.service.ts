@@ -38,21 +38,37 @@ export class NumbersService {
   }
 
   useFilter(numbers: number[]) {
-    // from(numbers).pipe(
-    //   concatMap(number =>
-    //     of(number).pipe(
-    //       delay(1000),
-    //       tap((originalNumber: number) => {
-    //         this.originalNumbers.next([...this.originalNumbers.getValue(), originalNumber]);
-    //       }),
-    //       delay(1000),
-    //       filter((originalNumber: number) => (originalNumber % 2 === 0)),
-    //       tap((convertedNumber: number) => {
-    //         this.convertedNumbers.next([...this.convertedNumbers.getValue(), convertedNumber]);
-    //       })
-    //     )
-    //   )
-    // ).subscribe();
+    from(numbers).pipe(
+      concatMap(number =>
+        of(number).pipe(
+          delay(1000),
+          tap((number: number) => {
+            this.numbers.next([...this.numbers.getValue(), {
+              leftNumber: number
+            }]);
+          }),
+          delay(1000),
+          filter((number: number) => {
+            if (number % 2 === 0) {
+              return true;
+            }
+
+            let numbers = this.numbers.getValue().slice();
+            numbers[numbers.length - 1].rightNumber = 'BLOCKED';
+
+            this.numbers.next(numbers);
+
+            return false;
+          }),
+          tap((number: number) => {
+            let numbers = this.numbers.getValue().slice();
+            numbers[numbers.length - 1].rightNumber = number;
+
+            this.numbers.next(numbers);
+          })
+        )
+      )
+    ).subscribe();
   }
 
   useSwitchMap() {

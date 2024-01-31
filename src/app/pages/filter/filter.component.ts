@@ -1,41 +1,44 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NumbersService } from '../../services/numbers.service';
+import { NumberPair } from '../../models/number-pair';
+import { CommonModule } from '@angular/common';
+import { IsNumberPipe } from '../../pipes/isNumber';
 
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    IsNumberPipe
+  ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })
 export class FilterComponent implements OnInit, OnDestroy {
   // SUBSCRIPTIONS
-  private origNumbersSubscription?: Subscription;
-  private convertedNumbersSubscription?: Subscription;
+  private numbersSubscription?: Subscription;
 
   // NUMBERS
-  origNumbers?: number[];
-  convertedNumbers?: number[];
+  numbers?: NumberPair[];
 
 
   constructor(private numbersService: NumbersService) { }
 
   ngOnInit(): void {
-    // this.numbersService.reset();
+    this.numbersService.reset();
 
-    // this.origNumbersSubscription = this.numbersService.originalNumbers.subscribe(origNumbers => {
-    //   this.origNumbers = origNumbers;
-    // });
-    // this.convertedNumbersSubscription = this.numbersService.convertedNumbers.subscribe(convertedNumbers => {
-    //   this.convertedNumbers = convertedNumbers;
-    // });
+    this.numbersSubscription = this.numbersService.numbers.subscribe(numbers => {
+      this.numbers = numbers;
+    });
 
-    // this.numbersService.useFilter([1, 2, 3, 54, 103, 104]);
+    this.numbersService.useFilter([
+      1, 2, 57, 58, 103, 104
+    ]);
+    // this.numbersService.useSwitchMap();
   }
 
   ngOnDestroy(): void {
-    this.origNumbersSubscription!.unsubscribe();
-    this.convertedNumbersSubscription!.unsubscribe();
+    this.numbersSubscription!.unsubscribe();
   }
 }

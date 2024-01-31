@@ -2,18 +2,27 @@
 
 <code><pre>
   ...pipe(
-    map(number => (number % 2 === 0))
+    filter(number => (number % 2 === 0))
   );
 </pre></code>
 
 <section class="numbers-diagram">
-  @for (origNumber of origNumbers; track origNumber) {
+  @for (numberPair of numbers; track numberPair) {
     <div class="row">
-      <div class="number left">{{ origNumber }}</div>
-      @if ($index < convertedNumbers!.length) {
-        <div class="arrow"></div>
+      <div class="number left">{{ numberPair.leftNumber }}</div>
+
+      @if (numberPair.rightNumber) {
+        <div 
+          [ngClass]="{
+            arrow: numberPair.rightNumber !== 'BLOCKED', 
+            blocked: numberPair.rightNumber === 'BLOCKED'
+          }"
+        ></div>
+
         <div class="number right">
-          {{ convertedNumbers![$index] }}
+          <ng-container *ngIf="numberPair.rightNumber | isNumber">
+            {{ numberPair.rightNumber }}
+          </ng-container>
         </div>
       }
     </div>
