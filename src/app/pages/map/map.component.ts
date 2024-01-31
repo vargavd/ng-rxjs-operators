@@ -11,13 +11,12 @@ import { Subscription } from 'rxjs';
 })
 export class MapComponent implements OnInit, OnDestroy {
   // SUBSCRIPTIONS
-  private useMapSubscription?: Subscription;
   private origNumbersSubscription?: Subscription;
   private convertedNumbersSubscription?: Subscription;
 
   // NUMBERS
-  private origNumbers?: number[];
-  private convertedNumbers?: number[];
+  origNumbers?: number[];
+  convertedNumbers?: number[];
 
 
   constructor(private numbersService: NumbersService) { }
@@ -32,11 +31,11 @@ export class MapComponent implements OnInit, OnDestroy {
       console.log(convertedNumbers);
     });
 
-    this.useMapSubscription = this.numbersService.useMap([1, 3, 5, 78]).subscribe(() => console.log('--------'));
+    this.numbersService.useMap([1, 3, 5, 78]);
+    // this.numbersService.useSwitchMap();
   }
 
   ngOnDestroy(): void {
-    this.useMapSubscription!.unsubscribe();
     this.origNumbersSubscription!.unsubscribe();
     this.convertedNumbersSubscription!.unsubscribe();
   }
