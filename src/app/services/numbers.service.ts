@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, concatMap, delay, from, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Subject, concatMap, delay, filter, from, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
+import { NumberPair } from '../models/number-pair';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NumbersService {
-  originalNumbers = new BehaviorSubject<number[]>([]);
-  convertedNumbers = new BehaviorSubject<number[]>([]);
+  numbers = new BehaviorSubject<NumberPair[]>([]);
 
   constructor() { }
 
   reset() {
-    this.originalNumbers.next([]);
-    this.convertedNumbers.next([]);
+    this.numbers.next([]);
   }
 
   useMap(numbers: number[]) {
@@ -21,16 +20,39 @@ export class NumbersService {
         of(number).pipe(
           delay(1000),
           tap((originalNumber: number) => {
-            this.originalNumbers.next([...this.originalNumbers.getValue(), originalNumber]);
+            this.numbers.next([...this.numbers.getValue(), {
+              leftNumber: originalNumber
+            }]);
           }),
-          delay(1000), // Add a delay of 1 second here
+          delay(1000),
           map((originalNumber: number) => originalNumber * 2),
           tap((convertedNumber: number) => {
-            this.convertedNumbers.next([...this.convertedNumbers.getValue(), convertedNumber]);
+            let numbers = this.numbers.getValue().slice();
+            numbers[numbers.length - 1].rightNumber = convertedNumber;
+
+            this.numbers.next(numbers);
           })
         )
       )
     ).subscribe();
+  }
+
+  useFilter(numbers: number[]) {
+    // from(numbers).pipe(
+    //   concatMap(number =>
+    //     of(number).pipe(
+    //       delay(1000),
+    //       tap((originalNumber: number) => {
+    //         this.originalNumbers.next([...this.originalNumbers.getValue(), originalNumber]);
+    //       }),
+    //       delay(1000),
+    //       filter((originalNumber: number) => (originalNumber % 2 === 0)),
+    //       tap((convertedNumber: number) => {
+    //         this.convertedNumbers.next([...this.convertedNumbers.getValue(), convertedNumber]);
+    //       })
+    //     )
+    //   )
+    // ).subscribe();
   }
 
   useSwitchMap() {

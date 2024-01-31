@@ -1,0 +1,21 @@
+<h2>Piping through the filter operator</h2>
+
+<code><pre>
+  ...pipe(
+    map(number => (number % 2 === 0))
+  );
+</pre></code>
+
+<section class="numbers-diagram">
+  @for (origNumber of origNumbers; track origNumber) {
+    <div class="row">
+      <div class="number left">{{ origNumber }}</div>
+      @if ($index < convertedNumbers!.length) {
+        <div class="arrow"></div>
+        <div class="number right">
+          {{ convertedNumbers![$index] }}
+        </div>
+      }
+    </div>
+  }
+</section>

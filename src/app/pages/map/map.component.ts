@@ -1,34 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NumbersService } from '../../services/numbers.service';
 import { Subscription } from 'rxjs';
+import { NumberPair } from '../../models/number-pair';
+import { CommonModule } from '@angular/common';
+import { IsNumberPipe } from '../../pipes/isNumber';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    IsNumberPipe
+  ],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
 export class MapComponent implements OnInit, OnDestroy {
   // SUBSCRIPTIONS
-  private origNumbersSubscription?: Subscription;
-  private convertedNumbersSubscription?: Subscription;
+  private numbersSubscription?: Subscription;
 
   // NUMBERS
-  origNumbers?: number[];
-  convertedNumbers?: number[];
+  numbers?: NumberPair[];
 
 
   constructor(private numbersService: NumbersService) { }
 
   ngOnInit(): void {
-    this.origNumbersSubscription = this.numbersService.originalNumbers.subscribe(origNumbers => {
-      this.origNumbers = origNumbers;
-      console.log(origNumbers);
-    });
-    this.convertedNumbersSubscription = this.numbersService.convertedNumbers.subscribe(convertedNumbers => {
-      this.convertedNumbers = convertedNumbers;
-      console.log(convertedNumbers);
+    this.numbersService.reset();
+
+    this.numbersSubscription = this.numbersService.numbers.subscribe(numbers => {
+      this.numbers = numbers;
     });
 
     this.numbersService.useMap([1, 3, 5, 78]);
@@ -36,7 +37,6 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.origNumbersSubscription!.unsubscribe();
-    this.convertedNumbersSubscription!.unsubscribe();
+    this.numbersSubscription!.unsubscribe();
   }
 }
