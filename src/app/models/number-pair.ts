@@ -1,4 +1,4 @@
 export interface NumberPair {
   leftNumber?: number,
-  rightNumber?: number | 'BLOCKED'
+  rightNumber?: number | 'BLOCKED' | string
 }

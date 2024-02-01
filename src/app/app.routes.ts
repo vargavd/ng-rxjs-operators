@@ -4,10 +4,12 @@ import { Routes } from '@angular/router';
 import { MapComponent } from './pages/map/map.component';
 import { FilterComponent } from './pages/filter/filter.component';
 import { TapComponent } from './pages/tap/tap.component';
+import { ConcatMapComponent } from './pages/concat-map/concat-map.component';
 
 
 export const routes: Routes = [
   { path: '', component: MapComponent },
   { path: 'filter', component: FilterComponent },
-  { path: 'tap', component: TapComponent }
+  { path: 'tap', component: TapComponent },
+  { path: 'concat-map', component: ConcatMapComponent }
 ];

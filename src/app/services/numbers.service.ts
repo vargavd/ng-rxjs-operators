@@ -121,8 +121,40 @@ export class NumbersService {
     // video: https://youtu.be/b59tcUwfpWU?si=Fs_nEaT1aaoOOvkT
   }
 
-  useConcatMap() {
+  useConcatMap(numbers: number[]) {
     // video: https://youtu.be/Byttv3YpjQk?t=788
+
+    this.reset();
+
+    this.numberSubscription = from(numbers).pipe(
+      concatMap(number =>
+        of(number).pipe(
+          delay(1000),
+          tap((number: number) => {
+            this.numbers.next([...this.numbers.getValue(), {
+              leftNumber: number
+            }]);
+          }),
+          delay(1000),
+          concatMap((number: number) => from([`${number}a`, `${number}b`, `${number}c`])),
+          tap((number: string) => {
+            let numbers = this.numbers.getValue().slice();
+
+            console.log(number);
+
+            if (numbers[numbers.length - 1].rightNumber) {
+              numbers.push({
+                rightNumber: number
+              });
+            } else {
+              numbers[numbers.length - 1].rightNumber = number;
+            }
+
+            this.numbers.next(numbers);
+          })
+        )
+      )
+    ).subscribe();
 
     // interval(1000).pipe(
     //   concatMap((elapsedSeconds) => of(elapsedSeconds).pipe(

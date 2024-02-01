@@ -95,6 +95,28 @@ section.numbers-diagram {
       }
     }
 
+    .muted-arrow {
+      flex: 1;
+      height: 5px;
+      border-radius: 5px;
+      background-color: #ccc;
+      position: relative;
+
+      &:after {
+        width: 10px;
+        height: 10px;
+        content: " ";
+        position: absolute;
+        right: 0;
+        top: -8px;
+        border: solid #ccc;
+        border-width: 0 5px 5px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(-45deg);
+      }
+    }
+
     [data-before-text] {
       position: relative;
 
