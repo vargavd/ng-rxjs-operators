@@ -102,8 +102,36 @@ export class NumbersService {
     ).subscribe();
   }
 
-  useSwitchMap() {
+  useSwitchMap(numbers: number[]) {
     // very good video: https://www.youtube.com/watch?v=6lKoLwGlglE
+
+    this.reset();
+
+    this.numberSubscription = from(numbers).pipe(
+      tap((number: number) => {
+        this.numbers.next([...this.numbers.getValue(), {
+          leftNumber: number
+        }]);
+      }),
+      switchMap((number: number) => from([`${number}a`, `${number}b`, `${number}c`]).pipe(
+        concatMap((number: string) =>
+          of(number).pipe(delay(500))
+        )
+      )),
+      tap((number: string) => {
+        let numbers = this.numbers.getValue().slice();
+
+        if (numbers[numbers.length - 1].rightNumber) {
+          numbers.push({
+            rightNumber: number
+          });
+        } else {
+          numbers[numbers.length - 1].rightNumber = number;
+        }
+
+        this.numbers.next(numbers);
+      })
+    ).subscribe();
 
     // interval(1000).pipe(
     //   switchMap(() => from([1, 2, 3, 78]).pipe(map(number => number * 2)))

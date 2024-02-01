@@ -1,0 +1,30 @@
+<h2>Using concatMap operator</h2>
+
+<code><pre>
+  ...pipe(
+    concatMap((number: number) => 
+      from([number+'a', number + 'b', number + 'c'])
+    )
+  );
+</pre></code>
+
+<section class="numbers-diagram">
+  @for (numberPair of numbers; track numberPair) {
+    <div class="row">
+      <div class="number left">{{ numberPair.leftNumber }}</div>
+
+      @if (numberPair.rightNumber) {
+        <div [ngClass]="{
+          arrow: !!numberPair.leftNumber,
+          'muted-arrow': !numberPair.leftNumber
+        }"></div>
+
+        <div class="number right">
+          <ng-container>
+            {{ numberPair.rightNumber }}
+          </ng-container>
+        </div>
+      }
+    </div>
+  }
+</section>
