@@ -6,6 +6,7 @@ import { FilterComponent } from './pages/filter/filter.component';
 import { TapComponent } from './pages/tap/tap.component';
 import { ConcatMapComponent } from './pages/concat-map/concat-map.component';
 import { SwitchMapComponent } from './pages/switch-map/switch-map.component';
+import { CombineLatestComponent } from './pages/combine-latest/combine-latest.component';
 
 
 export const routes: Routes = [
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'filter', component: FilterComponent },
   { path: 'tap', component: TapComponent },
   { path: 'concat-map', component: ConcatMapComponent },
-  { path: 'switch-map', component: SwitchMapComponent }
+  { path: 'switch-map', component: SwitchMapComponent },
+  { path: 'combine-latest', component: CombineLatestComponent }
 ];

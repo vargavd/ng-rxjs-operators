@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, Subscription, concatMap, delay, filter, from, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, combineLatest, concatMap, delay, filter, from, interval, map, of, switchMap, take, takeUntil, tap } from 'rxjs';
 import { NumberPair } from '../models/number-pair';
 
 @Injectable({
@@ -193,5 +193,25 @@ export class NumbersService {
     //   ).pipe(map(number => number * 2))
     //   )
     // ).subscribe(number => console.log(number));
+  }
+
+  useCombineLatest(numbers: number[]) {
+    this.reset();
+
+    combineLatest([
+      interval(1000).pipe(take(5)),
+      from(numbers).pipe(
+        concatMap(number =>
+          of(number).pipe(
+            delay(500)
+          )
+        )
+      )
+    ]).subscribe(([seconds, number]) => {
+      this.numbers.next([...this.numbers.getValue(), {
+        leftNumber: `${seconds}s`,
+        rightNumber: number
+      }])
+    });
   }
 }

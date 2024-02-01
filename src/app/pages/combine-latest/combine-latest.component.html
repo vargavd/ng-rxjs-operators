@@ -1,11 +1,16 @@
-<h2>Using switchMap operator</h2>
+<h2>Using combineLatest</h2>
 
 <code><pre>
-  ...pipe(
-    switchMap((number: number) => 
-      from([number+'a', number + 'b', number + 'c'])
+  combineLatest([
+    interval(1000).pipe(take(5)),
+    from([1, 3, 5, 78]).pipe(
+      concatMap(number =>
+        of(number).pipe(
+          delay(500)
+        )
+      )
     )
-  );
+  ])
 </pre></code>
 
 <section class="numbers-diagram">
