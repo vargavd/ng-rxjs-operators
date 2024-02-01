@@ -77,6 +77,31 @@ export class NumbersService {
     ).subscribe();
   }
 
+  useTap(numbers: number[]) {
+    this.reset();
+
+    this.numberSubscription = from(numbers).pipe(
+      concatMap(number =>
+        of(number).pipe(
+          delay(1000),
+          tap((number: number) => {
+            this.numbers.next([...this.numbers.getValue(), {
+              leftNumber: number
+            }]);
+          }),
+          delay(1000),
+          tap(number => console.log(number)),
+          tap((number: number) => {
+            let numbers = this.numbers.getValue().slice();
+            numbers[numbers.length - 1].rightNumber = number;
+
+            this.numbers.next(numbers);
+          })
+        )
+      )
+    ).subscribe();
+  }
+
   useSwitchMap() {
     // very good video: https://www.youtube.com/watch?v=6lKoLwGlglE
 

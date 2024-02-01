@@ -1,0 +1,25 @@
+<h2>Piping through the tap operator</h2>
+
+<code><pre>
+  ...pipe(
+    tap(number => console.log(number))
+  );
+</pre></code>
+
+<section class="numbers-diagram">
+  @for (numberPair of numbers; track numberPair) {
+    <div class="row">
+      <div class="number left">{{ numberPair.leftNumber }}</div>
+
+      @if (numberPair.rightNumber) {
+        <div class="arrow" data-before-text="console.log"></div>
+
+        <div class="number right">
+          <ng-container *ngIf="numberPair.rightNumber | isNumber">
+            {{ numberPair.rightNumber }}
+          </ng-container>
+        </div>
+      }
+    </div>
+  }
+</section>

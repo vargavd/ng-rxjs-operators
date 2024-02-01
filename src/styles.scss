@@ -95,6 +95,20 @@ section.numbers-diagram {
       }
     }
 
+    [data-before-text] {
+      position: relative;
+
+      &:before {
+        content: attr(data-before-text);
+        position: absolute;
+        left: 0;
+        top: -20px;
+        right: 0;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
     & + .row {
       margin-top: 10px;
     }
