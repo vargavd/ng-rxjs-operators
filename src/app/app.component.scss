@@ -5,7 +5,9 @@ mat-toolbar {
 
   a.github {
     width: 30px;
-    
+    display: flex;
+    align-items: center;
+
     svg {
       fill: white;
     }
